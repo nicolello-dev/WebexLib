@@ -33,7 +33,7 @@ function addZoomButton(video) {
   zoomButton.style = `
     cursor: pointer;
     stroke: white;
-    background-color: #0073b1;
+    background-color: #FFFFFF;
     align-items: center;
     border-radius: 32px;
     display: flex;
