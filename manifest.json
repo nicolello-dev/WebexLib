@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "WebexLib",
+  "description": "A collection of Webex tools and utilities",
+  "version": "0.1",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "webex-favicon.webp"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.webex.com/*"],
+      "js": ["scripts/background.js"]
+    }
+  ],
+  "permissions": ["activeTab"]
+}
