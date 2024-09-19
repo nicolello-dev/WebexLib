@@ -6,6 +6,27 @@ function onVideoStart() {
   let playbackContainer;
   const video = document.querySelector("video");
   console.log("Clicked play button");
+
+  // Set up forwards / backwards motions with j and l
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "j") {
+      video.currentTime -= 10;
+    } else if (e.key === "l") {
+      video.currentTime += 10;
+    } else if (e.key === "k") {
+      video.paused ? video.play() : video.pause();
+    } else if (e.key === "m") {
+      video.muted = !video.muted;
+    } else if (e.key === "ArrowRight") {
+      video.currentTime -= 5;
+      e.preventDefault();
+      e.stopPropagation();
+    } else if (e.key === "ArrowLeft") {
+      video.currentTime += 5;
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  });
   playbackControl = document.querySelector("wxp-playback-rate-control");
   const playbackText = playbackControl.children[0];
   playbackContainer = playbackControl.querySelector(

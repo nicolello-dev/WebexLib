@@ -5,7 +5,11 @@
 In particular:
 
 - More playback speeds
-- Better keyboard shortcuts (WIP)
+  - 0.25x, 0.5x, 1x, 2x, 3x, 5x
+- Better keyboard shortcuts
+  - Use j and l to go backwards / forwards by 10s
+  - Use k to pause / unpause the video
+  - Arrow keys now move by 5s
 - Video zoom in (WIP)
 
 # Installation
