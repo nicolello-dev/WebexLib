@@ -5,18 +5,18 @@
 In particular:
 
 - More playback speeds
-  - 0.25x, 0.5x, 1x, 2x, 3x, 5x
+  - 0.25x, 0.5x, 0.75x, 1x, 1.25x, 1.5x, 2x, 3x, 5x
 - Better keyboard shortcuts
   - Use j and l to go backwards / forwards by 10s
   - Use k to pause / unpause the video
   - Arrow keys now move by 5s
-- Video zoom in (WIP)
+- Video zoom in
 
 # Installation
 
 ### From source
 
-1. Download the source code through git via `git clone https://github.com/nicolello-dev/WebexLib.git` or download as zip (and unzip) through the `Download as zip` button under `code` atop the page.
+1. Download the source code through git via `git clone https://github.com/nicolello-dev/WebexLib.git`(recommended) or download as zip (and unzip) through the `Download as zip` button under `code` atop the page (NOT recommended).
 2. Open chrome, navigate to `chrome:extensions` and click on the `Load unpacked` button on the top-left. Navigate to the downloaded folder and select it
 
 # Upgrading
