@@ -114,6 +114,12 @@ function onVideoStart() {
       e.preventDefault();
       e.stopPropagation();
     } else if (e.key === "z") {
+      // If control z is pressed, toggle zoom
+      if (e.ctrlKey) {
+        toggleZoom(video);
+        return;
+      }
+      // Otherwise, modify the control mode
       const controlMode = video.getAttribute("data-controlmode");
       if (controlMode !== "mouse") {
         video.setAttribute("data-controlmode", "mouse");

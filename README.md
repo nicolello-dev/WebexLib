@@ -11,6 +11,8 @@ In particular:
   - Use k to pause / unpause the video
   - Arrow keys now move by 5s
 - Video zoom in
+  - Press ctrl+z or press the 🔍 key to toggle zoom status
+  - Press z to freeze or unfreeze zoom area (so you can move the mouse around)
 
 # Installation
 
