@@ -14,6 +14,10 @@ In particular:
 
 # Installation
 
+### From the chrome web store
+
+I sent the extension to review on the 20/9, it should be available within a few weeks. In the meantime, you can install it from source with the below method.
+
 ### From source
 
 1. Download the source code through git via `git clone https://github.com/nicolello-dev/WebexLib.git`(recommended) or download as zip (and unzip) through the `Download as zip` button under `code` atop the page (NOT recommended).

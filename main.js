@@ -10,9 +10,39 @@ const zoomSVG = `<svg fill="#FFFFFF" width="100%" height="100%" version="1.1" vi
  * @param {HTMLVideoElement} video
  * @returns
  */
+function toggleZoom(video) {
+  if (video.style.transform === "scale(4)") {
+    video.style = videoDefaultComputedStyleMap;
+    video.removeEventListener("mousemove", () => {});
+  } else {
+    video.parentElement.style.position = "relative";
+    video.parentElement.style.overflow = "hidden";
+    video.style.position = "absolute";
+    video.style.top = "0";
+    video.style.left = "0";
+    video.style.width = "100%";
+    video.style.height = "100%";
+    video.style.transform = "scale(4)";
+    video.addEventListener("mousemove", (e) => {
+      const rect = video.getBoundingClientRect();
+      const offsetX = e.clientX - rect.left;
+      const offsetY = e.clientY - rect.top;
+      video.style.transformOrigin = `${(offsetX / rect.width) * 100}% ${
+        (offsetY / rect.height) * 100
+      }%`;
+    });
+  }
+}
+
+/**
+ *
+ * @param {HTMLVideoElement} video
+ * @returns
+ */
 function addZoomButton(video) {
   // Do not add the button multiple times
   if (document.querySelector("wxp-zoom-button")) {
+    console.log("WEBEXLIB: Button has already been added, skipping");
     return;
   }
   const zoomButtonWrapper = document.createElement("wxp-zoom-button");
@@ -35,29 +65,7 @@ function addZoomButton(video) {
 
   videoDefaultComputedStyleMap = video.computedStyleMap();
 
-  zoomButton.addEventListener("click", () => {
-    if (video.style.transform === "scale(4)") {
-      video.style = videoDefaultComputedStyleMap;
-      video.removeEventListener("mousemove", () => {});
-    } else {
-      video.parentElement.style.position = "relative";
-      video.parentElement.style.overflow = "hidden";
-      video.style.position = "absolute";
-      video.style.top = "0";
-      video.style.left = "0";
-      video.style.width = "100%";
-      video.style.height = "100%";
-      video.style.transform = "scale(4)";
-      video.addEventListener("mousemove", (e) => {
-        const rect = video.getBoundingClientRect();
-        const offsetX = e.clientX - rect.left;
-        const offsetY = e.clientY - rect.top;
-        video.style.transformOrigin = `${(offsetX / rect.width) * 100}% ${
-          (offsetY / rect.height) * 100
-        }%`;
-      });
-    }
-  });
+  zoomButton.addEventListener("click", () => toggleZoom(video));
 
   zoomButton.innerHTML = zoomSVG;
   const controlBar = document.querySelector("wxp-controlbar");
@@ -73,8 +81,6 @@ function addZoomButton(video) {
 }
 
 function onVideoStart() {
-  let playbackControl;
-  let playbackContainer;
   const video = document.querySelector("video");
 
   addZoomButton(video);
@@ -98,11 +104,13 @@ function onVideoStart() {
       video.currentTime += 5;
       e.preventDefault();
       e.stopPropagation();
+    } else if (e.key === "z") {
+      toggleZoom(video);
     }
   });
-  playbackControl = document.querySelector("wxp-playback-rate-control");
+  const playbackControl = document.querySelector("wxp-playback-rate-control");
   const playbackText = playbackControl.children[0];
-  playbackContainer = playbackControl.querySelector(
+  const playbackContainer = playbackControl.querySelector(
     "ul.wxp-playback-rate-popover-menu"
   );
   playbackContainer.innerHTML = "";
@@ -147,12 +155,16 @@ function onVideoStart() {
   });
 }
 
-document.addEventListener("click", () => {
+let i;
+// Try to find the play button every 100ms
+i = setInterval(() => {
   const playButton = document.querySelector("#vjs_video_3 > button");
 
   if (!playButton) {
+    console.log("Play button not found. Will try again later");
     return;
   }
 
   playButton.addEventListener("click", () => setTimeout(onVideoStart, 1000));
-});
+  clearInterval(i);
+}, 100);
