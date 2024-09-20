@@ -41,6 +41,7 @@ function addZoomButton(video) {
       video.removeEventListener("mousemove", () => {});
     } else {
       video.parentElement.style.position = "relative";
+      video.parentElement.style.overflow = "hidden";
       video.style.position = "absolute";
       video.style.top = "0";
       video.style.left = "0";
