@@ -11,30 +11,35 @@ const zoomSVG = `<svg fill="#FFFFFF" width="100%" height="100%" version="1.1" vi
  * @returns
  */
 function toggleZoom(video) {
-  if (video.style.transform === "scale(4)") {
-    video.style = videoDefaultComputedStyleMap;
-    video.removeEventListener("mousemove", () => {});
+  const handleMouseMove = (e) => {
+    const controlByMouse = video.getAttribute("data-controlmode") === "mouse";
+    if (controlByMouse) {
+      return;
+    }
+    const rect = video.getBoundingClientRect();
+    const offsetX = e.clientX - rect.left;
+    const offsetY = e.clientY - rect.top;
+    video.style.transformOrigin = `${(offsetX / rect.width) * 100}% ${
+      (offsetY / rect.height) * 100
+    }%`;
+  };
+
+  video.style.top = "0";
+  video.style.left = "0";
+  video.style.width = "100%";
+  video.style.height = "100%";
+
+  // Check if the video is zoomed in
+  if (video.style.transform === "scale(3)") {
+    video.removeEventListener("mousemove", handleMouseMove);
+    video.style.transform = "scale(1)";
   } else {
     video.parentElement.style.position = "relative";
     video.parentElement.style.overflow = "hidden";
     video.style.position = "absolute";
-    video.style.top = "0";
-    video.style.left = "0";
-    video.style.width = "100%";
-    video.style.height = "100%";
-    video.style.transform = "scale(4)";
-    video.addEventListener("mousemove", (e) => {
-      const controlByMouse = video.getAttribute("data-controlmode") === "mouse";
-      if (controlByMouse) {
-        return;
-      }
-      const rect = video.getBoundingClientRect();
-      const offsetX = e.clientX - rect.left;
-      const offsetY = e.clientY - rect.top;
-      video.style.transformOrigin = `${(offsetX / rect.width) * 100}% ${
-        (offsetY / rect.height) * 100
-      }%`;
-    });
+    video.style.transform = "scale(3)";
+
+    video.addEventListener("mousemove", handleMouseMove);
   }
 }
 
