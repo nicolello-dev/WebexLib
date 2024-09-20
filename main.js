@@ -1,26 +1,8 @@
 // Add more buttons for playback speed
 const playbackSpeeds = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 3, 5];
 
-const zoomSVG = `<?xml version="1.0" encoding="iso-8859-1"?>
-<svg stroke="#000000" version="1.1" id="Layer_1"
-	xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-	viewBox="0 0 299.998 299.998" xml:space="preserve">
-<g>
-	<g>
-		<g>
-			<path d="M139.414,96.193c-22.673,0-41.056,18.389-41.056,41.062c0,22.678,18.383,41.062,41.056,41.062
-				c22.678,0,41.059-18.383,41.059-41.062C180.474,114.582,162.094,96.193,139.414,96.193z M159.255,146.971h-12.06v12.06
-				c0,4.298-3.483,7.781-7.781,7.781c-4.298,0-7.781-3.483-7.781-7.781v-12.06h-12.06c-4.298,0-7.781-3.483-7.781-7.781
-				c0-4.298,3.483-7.781,7.781-7.781h12.06v-12.063c0-4.298,3.483-7.781,7.781-7.781c4.298,0,7.781,3.483,7.781,7.781v12.063h12.06
-				c4.298,0,7.781,3.483,7.781,7.781C167.036,143.488,163.555,146.971,159.255,146.971z"/>
-			<path d="M149.997,0C67.157,0,0.001,67.158,0.001,149.995s67.156,150.003,149.995,150.003s150-67.163,150-150.003
-				S232.836,0,149.997,0z M225.438,221.254c-2.371,2.376-5.48,3.561-8.59,3.561s-6.217-1.185-8.593-3.561l-34.145-34.147
-				c-9.837,6.863-21.794,10.896-34.697,10.896c-33.548,0-60.742-27.196-60.742-60.744c0-33.548,27.194-60.742,60.742-60.742
-				c33.548,0,60.744,27.194,60.744,60.739c0,11.855-3.408,22.909-9.28,32.256l34.56,34.562
-				C230.185,208.817,230.185,216.512,225.438,221.254z"/>
-		</g>
-	</g>
-</g>
+const zoomSVG = `<svg fill="#FFFFFF" width="100%" height="100%" version="1.1" viewBox="144 144 512 512" xmlns="http://www.w3.org/2000/svg">
+ <path d="m589.38 544.89-108.02-108.02c15.418-23.68 24.434-51.895 24.434-82.223 0-83.332-67.812-151.14-151.14-151.14-83.328 0-151.14 67.812-151.14 151.14s67.812 151.14 151.14 151.14c30.328 0 58.543-9.0195 82.223-24.434l107.96 107.96c5.8945 5.8945 13.652 8.8164 21.363 8.8164 7.707 0 15.469-2.9219 21.363-8.8164l1.7148-1.7148c5.6914-5.6914 8.8672-13.301 8.8672-21.363-0.003906-8.0586-3.0781-15.668-8.7734-21.359zm-234.72-59.25c-72.246 0-130.99-58.746-130.99-130.99s58.746-130.99 130.99-130.99 130.99 58.746 130.99 130.99c-0.003907 72.25-58.746 130.99-130.99 130.99zm220.46 87.715-1.7148 1.7148c-3.9297 3.9297-10.328 3.9297-14.258 0l-106-105.95c5.6914-4.9375 11.035-10.277 15.973-15.973l105.95 105.95c3.9766 3.9844 3.9766 10.332 0.046875 14.262zm-160.01-218.7c0 5.543-4.5352 10.078-10.078 10.078h-40.305v40.305c0 5.543-4.5352 10.078-10.078 10.078-5.543 0-10.078-4.5352-10.078-10.078v-40.305h-40.305c-5.543 0-10.078-4.5352-10.078-10.078s4.5352-10.078 10.078-10.078h40.305v-40.305c0-5.543 4.5352-10.078 10.078-10.078 5.543 0 10.078 4.5352 10.078 10.078v40.305h40.305c5.543 0 10.078 4.5352 10.078 10.078z"/>
 </svg>`;
 
 /**
@@ -29,11 +11,13 @@ const zoomSVG = `<?xml version="1.0" encoding="iso-8859-1"?>
  * @returns
  */
 function addZoomButton(video) {
-  const zoomButton = document.createElement("wxp-zoom-button");
-  zoomButton.style = `
-    cursor: pointer;
-    stroke: white;
-    background-color: #FFFFFF;
+  // Do not add the button multiple times
+  if (document.querySelector("wxp-zoom-button")) {
+    return;
+  }
+  const zoomButtonWrapper = document.createElement("wxp-zoom-button");
+  zoomButtonWrapper.classList.add("wxp-control-button");
+  zoomButtonWrapper.style = `
     align-items: center;
     border-radius: 32px;
     display: flex;
@@ -42,6 +26,12 @@ function addZoomButton(video) {
     margin-right: 6px;
     margin-inline-end: 6px;
     min-width: 32px;`;
+
+  const zoomButton = document.createElement("button");
+
+  zoomButton.style = `
+    min-width: 32px;`;
+  zoomButtonWrapper.appendChild(zoomButton);
 
   videoDefaultComputedStyleMap = video.computedStyleMap();
 
@@ -76,7 +66,7 @@ function addZoomButton(video) {
   }
   // Insert the button before the follow speaker button
   controlBar.children[1].insertBefore(
-    zoomButton,
+    zoomButtonWrapper,
     controlBar.children[1].children[7]
   );
 }
@@ -118,7 +108,7 @@ function onVideoStart() {
 
   const checkSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="wxp-icon-check-bold wxp-icon" fill="currentcolor"><path d="M11.2 24.2a1 1 0 0 1-.708-.295l-7.2-7.235a1 1 0 1 1 1.417-1.41l6.545 6.577L27.35 8.042a1 1 0 1 1 1.3 1.517l-16.8 14.4a1 1 0 0 1-.65.24"></path></svg>`;
 
-  function onPlaybackRateChange() {
+  const onPlaybackRateChange = () => {
     playbackContainer.childNodes.forEach((node) => {
       const mark = node.children[1];
       console.log(node.innerText, video.playbackRate);
@@ -132,7 +122,7 @@ function onVideoStart() {
     setTimeout(() => {
       playbackText.innerText = `${video.playbackRate}X`;
     }, 10);
-  }
+  };
 
   playbackSpeeds.reverse().forEach((speed) => {
     // li for styling purposes, since the original buttons are styled as list items
