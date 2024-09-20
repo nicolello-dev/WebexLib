@@ -24,6 +24,10 @@ function toggleZoom(video) {
     video.style.height = "100%";
     video.style.transform = "scale(4)";
     video.addEventListener("mousemove", (e) => {
+      const controlByMouse = video.getAttribute("data-controlmode") === "mouse";
+      if (controlByMouse) {
+        return;
+      }
       const rect = video.getBoundingClientRect();
       const offsetX = e.clientX - rect.left;
       const offsetY = e.clientY - rect.top;
@@ -105,7 +109,12 @@ function onVideoStart() {
       e.preventDefault();
       e.stopPropagation();
     } else if (e.key === "z") {
-      toggleZoom(video);
+      const controlMode = video.getAttribute("data-controlmode");
+      if (controlMode !== "mouse") {
+        video.setAttribute("data-controlmode", "mouse");
+      } else {
+        video.setAttribute("data-controlmode", "none");
+      }
     }
   });
   const playbackControl = document.querySelector("wxp-playback-rate-control");
