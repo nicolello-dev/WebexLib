@@ -14,5 +14,5 @@
       "js": ["main.js"]
     }
   ],
-  "permissions": ["activeTab"]
+  "permissions": []
 }
