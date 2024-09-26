@@ -18,7 +18,9 @@ In particular:
 
 ### From the chrome web store
 
-I sent the extension to review on the 20/9, it should be available within a few weeks. In the meantime, you can install it from source with the below method.
+UPDATE - The extension has been approved. You can now install it from the web store at [https://chromewebstore.google.com/detail/webexlib/oeaffceahmfbmekjmocdkgbjkhhbfojl](https://chromewebstore.google.com/detail/webexlib/oeaffceahmfbmekjmocdkgbjkhhbfojl)
+
+~~I sent the extension to review on the 20/9, it should be available within a few weeks. In the meantime, you can install it from source with the below method.~~
 
 ### From source
 
