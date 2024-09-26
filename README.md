@@ -11,8 +11,9 @@ In particular:
   - Use k to pause / unpause the video
   - Arrow keys now move by 5s
 - Video zoom in
-  - Press ctrl+z or press the 🔍 key to toggle zoom status
-  - Press z to freeze or unfreeze zoom area (so you can move the mouse around)
+  - Press the zoom button on the bottom left to activate zoom mode. Click it again to deactivate it
+  - Move the slider that appears to control the zoom level. It goes from 1x to 5x and defaults to 1.5x
+  - To move the zoomed video, click and drag the video around
 
 # Installation
 
