@@ -11,9 +11,15 @@ const zoomSVG = `<svg fill="#FFFFFF" width="100%" height="100%" version="1.1" vi
  * @returns
  */
 function toggleZoom(video) {
+  /**
+   * Function that handles what to do when the mouse is dragged to move the zoom window
+   * @param {MouseEvent} e
+   * @returns
+   */
   const handleMouseMove = (e) => {
     const controlByMouse = video.getAttribute("data-controlmode") === "mouse";
-    if (controlByMouse) {
+    if (!controlByMouse) {
+      // If the control mode is not by mouse, do not move the video
       return;
     }
     const rect = video.getBoundingClientRect();
@@ -24,22 +30,49 @@ function toggleZoom(video) {
     }%`;
   };
 
+  zoomSlider = document.querySelector("#zoom-slider");
+  if (!zoomSlider) {
+    console.error("Zoom slider not found");
+    return;
+  }
+
   video.style.top = "0";
   video.style.left = "0";
   video.style.width = "100%";
   video.style.height = "100%";
+  video.addEventListener("mouseup", () => {
+    console.log("Mouse up");
+    // This realy sucks
+    if (video.paused) {
+      video.play();
+    } else {
+      video.pause();
+    }
+    video.setAttribute("data-controlmode", "none");
+  });
+  video.addEventListener("mousedown", () => {
+    console.log("Mouse down");
+    video.setAttribute("data-controlmode", "mouse");
+  });
+
+  const zoomFactor = video.getAttribute("data-zoom-factor") || 1;
 
   // Check if the video is zoomed in
-  if (video.style.transform === "scale(3)") {
+  if (video.getAttribute("data-zoomed") === "true") {
     video.removeEventListener("mousemove", handleMouseMove);
     video.style.transform = "scale(1)";
+    video.removeAttribute("data-zoomed");
+    zoomSlider.style.display = "none";
   } else {
+    video.setAttribute("data-zoomed", "true");
     video.parentElement.style.position = "relative";
     video.parentElement.style.overflow = "hidden";
     video.style.position = "absolute";
-    video.style.transform = "scale(3)";
+    video.style.transform = `scale(${zoomFactor})`;
 
     video.addEventListener("mousemove", handleMouseMove);
+
+    zoomSlider.style.display = "block";
   }
 }
 
@@ -48,7 +81,7 @@ function toggleZoom(video) {
  * @param {HTMLVideoElement} video
  * @returns
  */
-function addZoomButton(video) {
+function addZoomButtons(video) {
   // Do not add the button multiple times
   if (document.querySelector("wxp-zoom-button")) {
     console.log("WEBEXLIB: Button has already been added, skipping");
@@ -70,6 +103,24 @@ function addZoomButton(video) {
 
   zoomButton.style = `
     min-width: 32px;`;
+
+  const zoomSlider = document.createElement("input");
+  zoomSlider.id = "zoom-slider";
+  zoomSlider.type = "range";
+  zoomSlider.min = 1;
+  zoomSlider.max = 5;
+  zoomSlider.step = 0.1;
+  zoomSlider.value = 1.5;
+  zoomSlider.style.display = "none";
+
+  video.setAttribute("data-zoom-factor", zoomSlider.value);
+
+  zoomSlider.addEventListener("input", (e) => {
+    video.style.transform = `scale(${e.target.value})`;
+    video.setAttribute("data-zoom-factor", e.target.value);
+  });
+
+  zoomButtonWrapper.appendChild(zoomSlider);
   zoomButtonWrapper.appendChild(zoomButton);
 
   videoDefaultComputedStyleMap = video.computedStyleMap();
@@ -92,7 +143,7 @@ function addZoomButton(video) {
 function onVideoStart() {
   const video = document.querySelector("video");
 
-  addZoomButton(video);
+  addZoomButtons(video);
   console.log("Clicked play button");
 
   // Set up forwards / backwards motions with j and l
@@ -126,6 +177,14 @@ function onVideoStart() {
       } else {
         video.setAttribute("data-controlmode", "none");
       }
+    }
+  });
+
+  video.addEventListener("click", (e) => {
+    const controlMode = video.getAttribute("data-controlmode");
+    if (controlMode === "mouse") {
+      console.log("Stopped propagation");
+      e.stopPropagation();
     }
   });
   const playbackControl = document.querySelector("wxp-playback-rate-control");
