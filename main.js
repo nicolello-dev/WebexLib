@@ -40,18 +40,27 @@ function toggleZoom(video) {
   video.style.left = "0";
   video.style.width = "100%";
   video.style.height = "100%";
+  let lastClick = 0;
   video.addEventListener("mouseup", () => {
     console.log("Mouse up");
+    video.setAttribute("data-controlmode", "none");
     // This realy sucks
+    // Avoid doing anything if the click was fast (hence no drag)
+    if (Date.now() - lastClick < 500) {
+      console.log("Click was too fast, not dragging");
+      return;
+    }
+    console.log("Click was slow enough, dragging");
+    // Else toggle the video playing so it can be toggled again by webex
     if (video.paused) {
       video.play();
     } else {
       video.pause();
     }
-    video.setAttribute("data-controlmode", "none");
   });
   video.addEventListener("mousedown", () => {
     console.log("Mouse down");
+    lastClick = Date.now();
     video.setAttribute("data-controlmode", "mouse");
   });
 
@@ -112,6 +121,7 @@ function addZoomButtons(video) {
   zoomSlider.step = 0.1;
   zoomSlider.value = 1.5;
   zoomSlider.style.display = "none";
+  zoomSlider.style.height = "3px";
 
   video.setAttribute("data-zoom-factor", zoomSlider.value);
 
