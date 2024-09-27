@@ -1,0 +1,28 @@
+{
+  "name": "webexlib",
+  "version": "0.2.0",
+  "description": "An extension to improve Webex's UX",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "web-ext build --overwrite-dest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicolello-dev/WebexLib.git"
+  },
+  "keywords": [
+    "extension",
+    "webex",
+    "ux"
+  ],
+  "author": "Nicola Migone",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nicolello-dev/WebexLib/issues"
+  },
+  "homepage": "https://github.com/nicolello-dev/WebexLib#readme",
+  "devDependencies": {
+    "web-ext": "^8.3.0"
+  }
+}
