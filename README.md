@@ -17,11 +17,14 @@ In particular:
 
 # Installation
 
-### From the chrome web store
+### Chromium-based browsers (Chrome, Edge, Opera, etc.)
 
-UPDATE - The extension has been approved. You can now install it from the web store at [https://chromewebstore.google.com/detail/webexlib/oeaffceahmfbmekjmocdkgbjkhhbfojl](https://chromewebstore.google.com/detail/webexlib/oeaffceahmfbmekjmocdkgbjkhhbfojl)
+You can install the extension from the chrome web store at [https://chromewebstore.google.com/detail/webexlib/oeaffceahmfbmekjmocdkgbjkhhbfojl](https://chromewebstore.google.com/detail/webexlib/oeaffceahmfbmekjmocdkgbjkhhbfojl)
 
-~~I sent the extension to review on the 20/9, it should be available within a few weeks. In the meantime, you can install it from source with the below method.~~
+### Firefox users
+
+For firefox users, the addon will be available at
+[https://addons.mozilla.org/en-US/firefox/addon/webexlib/](https://addons.mozilla.org/en-US/firefox/addon/webexlib/). It is currently (27/9) under review and should be available within a few days.
 
 ### From source
 
